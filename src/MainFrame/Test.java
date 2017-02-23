@@ -1,7 +1,9 @@
+package MainFrame;
+
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
-public class MainWindow {
+public class Test {
 
 	protected Shell shell;
 
@@ -11,7 +13,7 @@ public class MainWindow {
 	 */
 	public static void main(String[] args) {
 		try {
-			MainWindow window = new MainWindow();
+			Test window = new Test();
 			window.open();
 		} catch (Exception e) {
 			e.printStackTrace();
