@@ -4,6 +4,8 @@ import java.sql.*;
 
 import javax.swing.JOptionPane;
 
+import dao.model.*;
+
 public class Dao {
 		// 定义数据库驱动类的名称
 		protected static String dbClassName = "com.mysql.jdbc.Driver";
@@ -18,15 +20,14 @@ public class Dao {
 		// 声明数据接入对象
 		public static Dao dao = new Dao();
 		
-		// 在静态代码段中初始化Dao类，实现数据库的驱动和连接。(PS:此块只初始化一次)
-		static {
+		private Dao() {
 			try {
 				if (conn == null) {
 					String ip = "139.224.134.144";
-					String port = "3306";
 					dbUrl = "jdbc:mysql://" + ip + "/cryptographic_voting_system";
 					Class.forName(dbClassName).newInstance();
 					conn = DriverManager.getConnection(dbUrl, dbUser, dbPwd);
+					System.out.println("数据库连接成功。");
 				}
 			} catch (Exception e) {
 				String message = e.getMessage();
@@ -37,12 +38,11 @@ public class Dao {
 			}
 		}
 		
-		private Dao() {}
-		
 		// 得到Data Access Object
 		public static Dao getInstance() {
 			return dao;
 		}
+		
 		
 		//--------------------数据库操作模块---------------------------//
 		// 创建数据库查询
@@ -93,5 +93,50 @@ public class Dao {
 		// 删除数据库
 		public static boolean delete(String sql) {
 			return insert(sql);
+		}
+		
+		// 验证用户名、密码是否合法
+		public static Voter checkLogin(String ic, String pwd) throws SQLException {
+			//System.out.println(ic);
+			//System.out.println(pwd);
+			Voter ret = new Voter();
+			ResultSet rs = findForResultSet("select * from voter_information where voter_ic = '" + ic +
+					"' and voter_password = '" + pwd + "'");
+			if (rs.next()) {
+				ret.setId(Integer.parseInt(rs.getString("voter_id")));
+				ret.setName(rs.getString("voter_name").trim());
+				ret.setAge(Integer.parseInt(rs.getString("voter_age")));
+				ret.setSex(rs.getString("voter_sex").trim());
+				ret.setIc(rs.getString("voter_ic").trim());
+				ret.setPassword(rs.getString("voter_password").trim());
+			}
+			return ret;
+		}
+		
+		//---------------------添加信息模块----------------------------//
+		// 添加投票人信息
+		public static boolean insertVoterInfo (Voter vt) {
+			try {
+				boolean autoCommit = conn.getAutoCommit();
+				conn.setAutoCommit(false);
+				String sql = "INSERT INTO  `voter_information` (  `voter_name` ,  `voter_age` ,  `voter_sex` ,  `voter_ic` ,  `voter_password` )"
+						+ "VALUES ('" + vt.getName() + "', " + vt.getAge() + ",  '" + vt.getSex() 
+						+ "', '" + vt.getIc() + "',  '" + vt.getPassword() + "')";
+				//System.out.println(sql);
+				if (!insert(sql)) {
+					JOptionPane.showMessageDialog(null, "注册失败，ID已存在");
+					return false;
+				}
+				conn.commit();
+				conn.setAutoCommit(autoCommit);
+			} catch (SQLException e) {
+				String message = e.getMessage();
+				int index = message.lastIndexOf(')');
+				message = message.substring(index + 1);
+				JOptionPane.showMessageDialog(null, message);
+				e.printStackTrace();
+				return false;
+			}
+			return true;
 		}
 }

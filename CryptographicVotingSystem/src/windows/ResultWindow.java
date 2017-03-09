@@ -1,14 +1,12 @@
-package MainFrame;
+package windows;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 
-public class Test
-{
-    public static void main(String[] args)
-    {
+public class ResultWindow {
+    public static void main(String[] args) {
         DefaultPieDataset dpd=new DefaultPieDataset(); //建立一个默认的饼图
         dpd.setValue("管理人员", 25);  //输入数据
         dpd.setValue("市场人员", 25);

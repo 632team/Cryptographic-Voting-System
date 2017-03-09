@@ -3,6 +3,11 @@ package windows;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Label;
+
+import java.sql.SQLException;
+
+import javax.swing.JOptionPane;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Button;
@@ -10,9 +15,10 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.wb.swt.SWTResourceManager;
 
+import dao.Dao;
 import dao.model.Voter;
 
-public class Login {
+public class LoginWindow {
 
 	protected Shell shell;
 	private Text text;
@@ -25,7 +31,7 @@ public class Login {
 	 */
 	public static void main(String[] args) {
 		try {
-			Login window = new Login();
+			LoginWindow window = new LoginWindow();
 			window.open();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -73,9 +79,20 @@ public class Login {
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				voter.setIc(text.getText().trim());
-				voter.setPassword(text_1.getText().trim());
-				System.out.println(voter.getIc());
+				String ic = text.getText().trim();
+				String pwd = text_1.getText().trim();
+				try {
+					voter = Dao.checkLogin(ic, pwd);
+					if (voter.getName() == null) {
+						JOptionPane.showMessageDialog(null, "输入的用户名或密码错误，请重新输入。");
+						text_1.setText("");
+						return;
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				System.out.println("登录成功。");
 			}
 		});
 		button.setBounds(128, 171, 81, 27);
@@ -85,7 +102,7 @@ public class Login {
 		button_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
+				new RegisterWindow().open();
 			}
 		});
 		button_1.setText("注册");
