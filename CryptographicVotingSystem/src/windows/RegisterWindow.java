@@ -15,19 +15,20 @@ import dao.model.Voter;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Combo;
 
 public class RegisterWindow {
 
 	protected Shell shell;
 	private Text text;
 	private Text text_1;
-	private Text text_2;
 	private Text text_3;
 	private Label label_3;
 	private Text text_4;
 	private Label label_4;
 	private Text text_5;
 	private Label label_5;
+	private Combo combo;
 
 	/**
 	 * Launch the application.
@@ -83,10 +84,6 @@ public class RegisterWindow {
 		label_2.setText("\u6027\u522B\uFF1A");
 		label_2.setBounds(70, 135, 43, 17);
 		
-		text_2 = new Text(shell, SWT.BORDER);
-		text_2.setText("\u7537/\u5973");
-		text_2.setBounds(119, 129, 211, 23);
-		
 		text_3 = new Text(shell, SWT.BORDER);
 		text_3.setBounds(119, 176, 211, 23);
 		
@@ -112,13 +109,14 @@ public class RegisterWindow {
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (text.getText() == "" || text_1.getText() == "" || text_2.getText() == "" || text_3.getText() == "" || text_4.getText() == "") {
+				String text_2 = combo.getText();
+				if (text.getText() == "" || text_1.getText() == "" || text_2 == "" || text_3.getText() == "" || text_4.getText() == "") {
 					JOptionPane.showMessageDialog(null, "请完整填写完整信息。");
 					return;
 				}
 				String name = text.getText().trim();
 				int age = Integer.parseInt(text_1.getText().trim());
-				String sex = text_2.getText().trim();
+				String sex = text_2;
 				String ic = text_3.getText().trim();
 				String password = text_4.getText().trim();
 				String password2 = text_5.getText().trim();
@@ -140,5 +138,11 @@ public class RegisterWindow {
 		});
 		button.setBounds(250, 316, 80, 27);
 		button.setText("\u6CE8\u518C");
+		
+		combo = new Combo(shell, SWT.READ_ONLY);
+		combo.setItems("男");
+		combo.setItems(new String[] {"\u7537", "\u5973"});
+		combo.setBounds(119, 132, 88, 25);
+		combo.select(0);
 	}
 }
