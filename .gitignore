@@ -2,7 +2,7 @@
 /.recommenders/
 /.metadata/
 .recommenders/
-.metadata/
+.metadata
 ./.recommenders/
 ./.metadata/
 .classpath
