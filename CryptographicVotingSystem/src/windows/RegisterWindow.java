@@ -140,7 +140,6 @@ public class RegisterWindow {
 		button.setText("\u6CE8\u518C");
 		
 		combo = new Combo(shell, SWT.READ_ONLY);
-		combo.setItems("ÄÐ");
 		combo.setItems(new String[] {"\u7537", "\u5973"});
 		combo.setBounds(119, 132, 88, 25);
 		combo.select(0);
