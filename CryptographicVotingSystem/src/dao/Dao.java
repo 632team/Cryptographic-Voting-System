@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.*;
+import java.util.*;
 
 import javax.swing.JOptionPane;
 
@@ -24,7 +25,7 @@ public class Dao {
 			try {
 				if (conn == null) {
 					String ip = "139.224.134.144";
-					dbUrl = "jdbc:mysql://" + ip + "/cryptographic_voting_system";
+					dbUrl = "jdbc:mysql://" + ip + "/cryptographic_voting_system?useUnicode=true&characterEncoding=utf-8";
 					Class.forName(dbClassName).newInstance();
 					conn = DriverManager.getConnection(dbUrl, dbUser, dbPwd);
 					System.out.println("数据库连接成功。");
@@ -138,5 +139,31 @@ public class Dao {
 				return false;
 			}
 			return true;
+		}
+		
+		//---------------------查询信息模块----------------------------//
+		// 查询候选人信息
+		public static List<Candidate> getCandidateInfo() {
+			List<Candidate> list = new ArrayList<Candidate>();
+			ResultSet set = findForResultSet("select * from candidate_information");
+			try {
+				while (set.next()) {
+					Candidate info = new Candidate();
+					info.setId(Integer.parseInt(set.getString("candidate_id").trim()));
+					info.setName(set.getString("candidate_name").trim());
+					info.setAge(Integer.parseInt(set.getString("candidate_age").trim()));
+					info.setIc(set.getString("candidate_ic").trim());
+					info.setRecord(set.getString("candidate_record").trim());
+					info.setSex(set.getString("candidate_sex").trim());
+					list.add(info);
+				}
+			} catch (SQLException e) {
+				String message = e.getMessage();
+				int index = message.lastIndexOf(')');
+				message = message.substring(index + 1);
+				JOptionPane.showMessageDialog(null, message);
+				e.printStackTrace();
+			}
+			return list;
 		}
 }

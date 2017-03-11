@@ -4,7 +4,12 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Label;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
@@ -17,13 +22,14 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 import dao.Dao;
 import dao.model.Voter;
+import org.eclipse.swt.widgets.DateTime;
 
 public class LoginWindow {
 
 	protected Shell shell;
 	private Text text;
 	private Text text_1;
-	private Voter voter = new Voter();
+	private Voter voter;
 
 	/**
 	 * Launch the application.
@@ -36,6 +42,7 @@ public class LoginWindow {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.exit(0);
 	}
 
 	/**
@@ -70,6 +77,23 @@ public class LoginWindow {
 		label_1.setText("\u5BC6   \u7801\uFF1A");
 		
 		text = new Text(shell, SWT.BORDER);
+		final File file = new File("login.txt");
+		if (!file.exists()) {
+			try {
+				file.createNewFile();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+		Scanner input;
+		try {
+			input = new Scanner(file);
+			if (input.hasNext())
+				text.setText(input.nextLine());
+			input.close();
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
 		text.setBounds(159, 80, 171, 23);
 		
 		text_1 = new Text(shell, SWT.BORDER | SWT.PASSWORD);
@@ -93,6 +117,14 @@ public class LoginWindow {
 					e1.printStackTrace();
 				}
 				System.out.println("登录成功。");
+				try {
+					new FileOutputStream(file).write(ic.getBytes());
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				new VoteWindow(voter).open();
 			}
 		});
 		button.setBounds(128, 171, 81, 27);
@@ -113,10 +145,5 @@ public class LoginWindow {
 		label_2.setBounds(86, 23, 322, 40);
 		label_2.setText("\u6B22\u8FCE\u4F7F\u7528\u533F\u540D\u7535\u5B50\u6295\u7968\u7CFB\u7EDF");
 
-	}
-	
-	// 得到投票人信息
-	public Voter getVoter() {
-		return voter;
 	}
 }
