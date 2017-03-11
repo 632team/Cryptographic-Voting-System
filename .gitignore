@@ -1,5 +1,5 @@
-/CryptographicVotingSystem/bin/
-/.recommenders/
-/.metadata/
+/CryptographicVotingSystem/bin/*
+/.recommenders/*
+/.metadata/*
 .classpath
 .project
