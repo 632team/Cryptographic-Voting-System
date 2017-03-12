@@ -68,7 +68,7 @@ public class Dao {
 	        }
 	        return rs;
 		}
-		
+
 		// 插入数据库
 		public static boolean insert(String sql) {
 			boolean rs = false;
@@ -141,11 +141,35 @@ public class Dao {
 			return true;
 		}
 		
+		public static Candidate getCandidatebyId(int id){
+			Candidate info = null;
+			ResultSet set = findForResultSet("select * from candidate_information "
+					+"where candidate_id = '"+id 	+"'");
+			try{
+				while(set.next()){
+					info = new Candidate();
+					info.setId(Integer.parseInt(set.getString("candidate_id").trim()));
+					info.setName(set.getString("candidate_name").trim());
+					info.setAge(Integer.parseInt(set.getString("candidate_age").trim()));
+					info.setIc(set.getString("candidate_ic").trim());
+					info.setRecord(set.getString("candidate_record").trim());
+					info.setSex(set.getString("candidate_sex").trim());
+					info.setDelcaration(set.getString("candidate_declaration"));
+				}
+			}catch (SQLException e) {
+				String message = e.getMessage();
+				int index = message.lastIndexOf(')');
+				message = message.substring(index + 1);
+				JOptionPane.showMessageDialog(null, message);
+				e.printStackTrace();
+			}
+			return info;
+		}
 		//---------------------查询信息模块----------------------------//
 		// 查询候选人信息
 		public static List<Candidate> getCandidateInfo() {
 			List<Candidate> list = new ArrayList<Candidate>();
-			ResultSet set = findForResultSet("select * from candidate_information");
+			ResultSet set = findForResultSet("select * from candidate_information" );
 			try {
 				while (set.next()) {
 					Candidate info = new Candidate();
@@ -155,6 +179,7 @@ public class Dao {
 					info.setIc(set.getString("candidate_ic").trim());
 					info.setRecord(set.getString("candidate_record").trim());
 					info.setSex(set.getString("candidate_sex").trim());
+					info.setDelcaration(set.getString("candidate_declaration"));
 					list.add(info);
 				}
 			} catch (SQLException e) {

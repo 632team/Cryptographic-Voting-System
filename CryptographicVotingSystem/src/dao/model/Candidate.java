@@ -7,6 +7,7 @@ public class Candidate {
 	private String sex;
 	private String ic;
 	private String record;
+	private String delcaration;
 	public int getId() {
 		return id;
 	}
@@ -42,5 +43,11 @@ public class Candidate {
 	}
 	public void setRecord(String record) {
 		this.record = record;
+	}
+	public String getDelcaration() {
+		return delcaration;
+	}
+	public void setDelcaration(String delcaration) {
+		this.delcaration = delcaration;
 	}
 }
