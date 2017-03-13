@@ -7,10 +7,11 @@ public class Main {
 		Thread back = new Thread(new Runnable() {
 			public void run() {
 				// TODO Auto-generated method stub
-				Dao dao = Dao.getInstance();
+				Dao.getInstance();
 			}
 		});
 		back.start();
 		new LoginWindow().open();
+		System.exit(0);
 	}
 }

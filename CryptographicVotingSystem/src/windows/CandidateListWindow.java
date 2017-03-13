@@ -1,17 +1,11 @@
 package windows;
 
 
-import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.SWT;
@@ -21,9 +15,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -32,7 +24,6 @@ import org.eclipse.swt.widgets.Text;
 
 import dao.Dao;
 import dao.model.Candidate;
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -42,8 +33,6 @@ public class CandidateListWindow {
 	protected Shell shell;
 	private Table table;
 	private TableColumn tableColumn;
-	private TableItem tableItem_1;
-	private TableItem tableItem_2;
 	private Text text_intro;
 	private Text text_declaration;
 	private Text text_age;
@@ -93,7 +82,7 @@ public class CandidateListWindow {
 		table.setTouchEnabled(true);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseDoubleClick(MouseEvent e) {
+			public void mouseDown(MouseEvent e) {
 				int index = table.getSelectionIndex();
 				System.out.println(index);
 				if(index < 0 || index >= list.size()) return ;
@@ -212,11 +201,6 @@ public class CandidateListWindow {
 		list = Dao.getCandidateInfo();
 		for (final Candidate ca: list) {
 			TableItem tableItem= new TableItem(table, SWT.NONE);
-			tableItem.addListener(SWT.MouseDoubleClick, new Listener() {
-				public void handleEvent(Event arg0) {
-					System.out.println(ca.getName());
-				}
-			});
 			tableItem.setText(new String[] {String.valueOf(ca.getId()), ca.getName()});
 		}
 	}

@@ -80,7 +80,7 @@ public class Dao {
 				String message = e.getMessage();
 				int index = message.lastIndexOf(')');
 				message = message.substring(index + 1);
-				JOptionPane.showMessageDialog(null, message);
+				System.out.println(message);
 				return false;
 			}
 			return rs;
@@ -141,6 +141,41 @@ public class Dao {
 			return true;
 		}
 		
+		// 添加投票信息
+		public static boolean voteCandidate(int vid, int cid) {
+			String sql = "INSERT INTO  `voter_result` (  `voter_id` ,  `candidate_id`)"
+					+ "VALUES ('" + vid + "', '" + cid + "')";
+			return insert(sql);
+		}
+		
+		//---------------------查询信息模块----------------------------//
+		// 查询候选人信息
+		public static List<Candidate> getCandidateInfo() {
+			List<Candidate> list = new ArrayList<Candidate>();
+			ResultSet set = findForResultSet("select * from candidate_information" );
+			try {
+				while (set.next()) {
+					Candidate info = new Candidate();
+					info.setId(Integer.parseInt(set.getString("candidate_id").trim()));
+					info.setName(set.getString("candidate_name").trim());
+					info.setAge(Integer.parseInt(set.getString("candidate_age").trim()));
+					info.setIc(set.getString("candidate_ic").trim());
+					info.setRecord(set.getString("candidate_record").trim());
+					info.setSex(set.getString("candidate_sex").trim());
+					info.setDelcaration(set.getString("candidate_declaration"));
+					list.add(info);
+				}
+			} catch (SQLException e) {
+				String message = e.getMessage();
+				int index = message.lastIndexOf(')');
+				message = message.substring(index + 1);
+				JOptionPane.showMessageDialog(null, message);
+				e.printStackTrace();
+			}
+			return list;
+		}
+		
+		// 通过id查询候选人信息
 		public static Candidate getCandidatebyId(int id){
 			Candidate info = null;
 			ResultSet set = findForResultSet("select * from candidate_information "
@@ -165,21 +200,16 @@ public class Dao {
 			}
 			return info;
 		}
-		//---------------------查询信息模块----------------------------//
-		// 查询候选人信息
-		public static List<Candidate> getCandidateInfo() {
-			List<Candidate> list = new ArrayList<Candidate>();
-			ResultSet set = findForResultSet("select * from candidate_information" );
+		
+		// 查询投票结果
+		public static List<Result> getVoterResult() {
+			List<Result> list = new ArrayList<Result>();
+			ResultSet set = findForResultSet("select * from voter_result" );
 			try {
 				while (set.next()) {
-					Candidate info = new Candidate();
-					info.setId(Integer.parseInt(set.getString("candidate_id").trim()));
-					info.setName(set.getString("candidate_name").trim());
-					info.setAge(Integer.parseInt(set.getString("candidate_age").trim()));
-					info.setIc(set.getString("candidate_ic").trim());
-					info.setRecord(set.getString("candidate_record").trim());
-					info.setSex(set.getString("candidate_sex").trim());
-					info.setDelcaration(set.getString("candidate_declaration"));
+					Result info = new Result();
+					info.setVoter_id(set.getInt("voter_id"));
+					info.setCandidate_id(set.getInt("candidate_id"));
 					list.add(info);
 				}
 			} catch (SQLException e) {

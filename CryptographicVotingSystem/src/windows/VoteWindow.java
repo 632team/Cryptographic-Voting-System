@@ -5,7 +5,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Label;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 import javax.swing.JOptionPane;
 
@@ -108,7 +107,7 @@ public class VoteWindow {
 		text_id.setBounds(99, 176, 108, 23);
 		text_id.setText(String.valueOf(voter.getId()));
 		
-		Button button = new Button(shell, SWT.NONE);
+		final Button button = new Button(shell, SWT.NONE);
 		// 选择候选人
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -120,11 +119,11 @@ public class VoteWindow {
 				button.setEnabled(true);
 				int ans = c_window.getCandidate_id();
 				if(ans != -1){
-					Candidate temp = Dao.getCandidatebyId(ans);
-					if(temp == null){
+					candidate = Dao.getCandidatebyId(ans);
+					if(candidate == null){
 						return;
 					}
-					text_c_name.setText(temp.getName());
+					text_c_name.setText(candidate.getName());
 					button_sure.setEnabled(true);
 //					text_name.setText(temp.getName());
 //					text_age.setText(String.valueOf(temp.getAge()));
@@ -142,7 +141,12 @@ public class VoteWindow {
 		button_sure.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
+				if (!Dao.voteCandidate(voter.getId(), candidate.getId())) {
+					JOptionPane.showMessageDialog(null, "不允许重复投票。");
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "投票成功:)");
+				}
 			}
 		});
 		button_sure.setEnabled(false);

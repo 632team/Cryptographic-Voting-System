@@ -22,7 +22,6 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 import dao.Dao;
 import dao.model.Voter;
-import org.eclipse.swt.widgets.DateTime;
 
 public class LoginWindow {
 
@@ -101,6 +100,7 @@ public class LoginWindow {
 		
 		Button button = new Button(shell, SWT.NONE);
 		button.addSelectionListener(new SelectionAdapter() {
+			@SuppressWarnings("resource")
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				String ic = text.getText().trim();
