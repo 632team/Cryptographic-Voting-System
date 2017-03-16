@@ -133,7 +133,7 @@ public class VoteWindow {
 				}
 			}
 		});
-		button.setBounds(288, 80, 80, 27);
+		button.setBounds(290, 57, 80, 27);
 		button.setText("\u9009\u62E9\u5019\u9009\u4EBA");
 		
 		button_sure = new Button(shell, SWT.NONE);
@@ -150,13 +150,23 @@ public class VoteWindow {
 			}
 		});
 		button_sure.setEnabled(false);
-		button_sure.setBounds(178, 233, 80, 27);
+		button_sure.setBounds(174, 233, 80, 27);
 		button_sure.setText("\u6295\u7968");
 		
 		text_c_name = new Text(shell, SWT.BORDER | SWT.READ_ONLY);
 		text_c_name.setEnabled(false);
 		text_c_name.setText("\u672A\u9009\u62E9\u5019\u9009\u4EBA");
-		text_c_name.setBounds(277, 129, 108, 23);
+		text_c_name.setBounds(279, 106, 108, 23);
+		
+		Button button_1 = new Button(shell, SWT.NONE);
+		button_1.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				new ResultWindow();
+			}
+		});
+		button_1.setBounds(279, 154, 108, 27);
+		button_1.setText("\u67E5\u770B\u76EE\u524D\u6295\u7968\u7ED3\u679C");
 	}
 
 	public Candidate getCandidate() {
