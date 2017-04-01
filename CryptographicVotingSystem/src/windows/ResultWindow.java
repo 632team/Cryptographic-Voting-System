@@ -4,23 +4,24 @@ import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 
+import com.util.RSAEncrypt;
+
 import dao.Dao;
 import dao.model.Result;
-import javafx.scene.control.cell.MapValueFactory;
-
-import java.sql.*;
 import java.util.*;
-
-import javax.swing.JOptionPane;
+import com.util.Base64;
 
 public class ResultWindow {
-	public ResultWindow() {
+	public ResultWindow() throws Exception {
 		DefaultPieDataset dpd=new DefaultPieDataset(); //建立一个默认的饼图
     	Map<Integer, Integer> map = new HashMap<Integer, Integer>();
     	
     	List<Result> result = Dao.getVoterResult();
     	for (int i = 0; i < result.size(); ++i){
-    		int id = result.get(i).getCandidate_id();
+    		String encryptId = result.get(i).getCandidate_id();
+    		int vid = result.get(i).getVoter_id();
+    		byte[] res = RSAEncrypt.decrypt(RSAEncrypt.loadPublicKeyByStr(Dao.getPublicKeyById(vid)), Base64.decode(encryptId));
+    		int id = Integer.parseInt(new String(res));
     		if (map.get(id) != null){
     			map.put(id, map.get(Integer.toString(id)) + 1);
     		}else{

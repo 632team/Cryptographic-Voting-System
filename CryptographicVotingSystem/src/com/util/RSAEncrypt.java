@@ -17,7 +17,7 @@ public class RSAEncrypt {
     /** 
      * 随机生成密钥对 
      */  
-    public static void genKeyPair() {
+    public static String[] genKeyPair() {
         // KeyPairGenerator类用于生成公钥和私钥对，基于RSA算法生成对象  
         KeyPairGenerator keyPairGen = null;
         try {
@@ -34,25 +34,27 @@ public class RSAEncrypt {
         RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
         // 得到公钥  
         RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+        String[] ret = new String[2];
         try {
             // 得到公钥字符串  
-            String publicKeyString = Base64.encode(publicKey.getEncoded());
+            ret[0] = Base64.encode(publicKey.getEncoded());
             // 得到私钥字符串  
-            String privateKeyString = Base64.encode(privateKey.getEncoded());
+            ret[1] = Base64.encode(privateKey.getEncoded());
             // 将密钥对写入到文件  
-            FileWriter pubfw = new FileWriter("publicKey.keystore");
-            FileWriter prifw = new FileWriter("privateKey.keystore");
-            BufferedWriter pubbw = new BufferedWriter(pubfw);
-            BufferedWriter pribw = new BufferedWriter(prifw);
-            pubbw.write(publicKeyString);
-            pribw.write(privateKeyString);
-            pubbw.close();
-            pubfw.close();
-            pribw.close();
-            prifw.close();
+//            FileWriter pubfw = new FileWriter("publicKey.keystore");
+//            FileWriter prifw = new FileWriter("privateKey.keystore");
+//            BufferedWriter pubbw = new BufferedWriter(pubfw);
+//            BufferedWriter pribw = new BufferedWriter(prifw);
+//            pubbw.write(publicKeyString);
+//            pribw.write(privateKeyString);
+//            pubbw.close();
+//            pubfw.close();
+//            pribw.close();
+//            prifw.close();
         } catch (Exception e) {  
             e.printStackTrace();  
-        }  
+        }
+        return ret;
     }  
 	
     /** 

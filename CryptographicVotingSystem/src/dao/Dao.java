@@ -5,6 +5,9 @@ import java.util.*;
 
 import javax.swing.JOptionPane;
 
+import com.util.Base64;
+import com.util.RSAEncrypt;
+
 import dao.model.*;
 
 public class Dao {
@@ -110,6 +113,8 @@ public class Dao {
 				ret.setSex(rs.getString("voter_sex").trim());
 				ret.setIc(rs.getString("voter_ic").trim());
 				ret.setPassword(rs.getString("voter_password").trim());
+				ret.setPublicKey(rs.getString("voter_public_key").trim());
+				ret.setPrivateKey(rs.getString("voter_private_key").trim());
 			}
 			return ret;
 		}
@@ -142,9 +147,11 @@ public class Dao {
 		}
 		
 		// 添加投票信息
-		public static boolean voteCandidate(int vid, int cid) {
+		public static boolean voteCandidate(int vid, String privateKey, String cid) throws Exception {
+			String encryptResult = Base64.encode(RSAEncrypt.encrypt(RSAEncrypt.loadPrivateKeyByStr(privateKey), cid.getBytes()));
 			String sql = "INSERT INTO  `voter_result` (  `voter_id` ,  `candidate_id`)"
-					+ "VALUES ('" + vid + "', '" + cid + "')";
+					+ "VALUES ('" + vid + "', '" + encryptResult + "')";
+			//System.out.println(encryptResult);
 			return insert(sql);
 		}
 		
@@ -201,6 +208,26 @@ public class Dao {
 			return info;
 		}
 		
+		// 通过id得到投票人公钥
+		public static String getPublicKeyById(int id) {
+			Voter info = null;
+			ResultSet set = findForResultSet("select * from voter_information "
+					+"where voter_id = '"+ id +"'");
+			try{
+				while(set.next()){
+					info = new Voter();
+					info.setPublicKey(set.getString("voter_public_key").trim());
+				}
+			}catch (SQLException e) {
+				String message = e.getMessage();
+				int index = message.lastIndexOf(')');
+				message = message.substring(index + 1);
+				JOptionPane.showMessageDialog(null, message);
+				e.printStackTrace();
+			}
+			return info.getPublicKey();
+		}
+		
 		// 查询投票结果
 		public static List<Result> getVoterResult() {
 			List<Result> list = new ArrayList<Result>();
@@ -209,7 +236,7 @@ public class Dao {
 				while (set.next()) {
 					Result info = new Result();
 					info.setVoter_id(set.getInt("voter_id"));
-					info.setCandidate_id(set.getInt("candidate_id"));
+					info.setCandidate_id(set.getString("candidate_id"));
 					list.add(info);
 				}
 			} catch (SQLException e) {
@@ -220,5 +247,11 @@ public class Dao {
 				e.printStackTrace();
 			}
 			return list;
+		}
+		
+		//---------------------修改信息模块----------------------------//
+		public static void setKey(int id, String[] s) {
+			update("update voter_information set voter_public_key='" + s[0] + 
+					"', voter_private_key='" + s[1] + "' where voter_id = '"+ id +"'");
 		}
 }
