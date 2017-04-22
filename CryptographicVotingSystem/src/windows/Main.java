@@ -10,6 +10,7 @@ public class Main {
 				Dao.getInstance();
 			}
 		});
+		back.setDaemon(true);
 		back.start();
 		new LoginWindow().open();
 		System.exit(0);

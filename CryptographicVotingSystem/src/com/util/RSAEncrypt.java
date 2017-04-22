@@ -7,6 +7,8 @@ import java.security.spec.*;
 
 import javax.crypto.*;
 
+import dao.Dao;
+
 public class RSAEncrypt {
 	/** 
      * 字节数据转字符串专用集合 
@@ -222,7 +224,7 @@ public class RSAEncrypt {
         } catch (BadPaddingException e) {  
             throw new Exception("明文数据已损坏");  
         }  
-    }  
+    }
   
     /** 
      * 私钥解密过程 
@@ -298,7 +300,7 @@ public class RSAEncrypt {
         } catch (BadPaddingException e) {  
             throw new Exception("密文数据已损坏");  
         }  
-    }  
+    }
   
     /** 
      * 字节数据转十六进制字符串 
