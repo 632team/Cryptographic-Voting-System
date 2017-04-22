@@ -145,12 +145,12 @@ public class VoteWindow {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
-					//System.out.println(voter.getPrivateKey());
-					if (voter.getPrivateKey() == null) {
+					System.out.println(voter.getPrivateKey());
+					if (voter.getPrivateKey() == null || voter.getPrivateKey().equals("")) {
 						JOptionPane.showMessageDialog(null, "请先获得密钥才能投票");
 						return;
 					}
-					if (!Dao.voteCandidate(voter.getId(), voter.getPrivateKey(), String.valueOf(candidate.getId()))) {
+					if (!Dao.voteCandidate(voter, String.valueOf(candidate.getId()))) {
 						JOptionPane.showMessageDialog(null, "不允许重复投票。");
 					}
 					else {
@@ -193,12 +193,13 @@ public class VoteWindow {
 		button_2.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (Dao.getPublicKeyById(voter.getId()) != null) {
+				String pk = Dao.getPublicKeyById(voter.getId());
+				if (pk != null && !pk.equals("")) {
 					JOptionPane.showMessageDialog(null, "你已经有密钥哦亲:)");
 					return;
 				}
 				String[] s = RSAEncrypt.genKeyPair();
-				Dao.setKey(voter.getId(), s);
+				Dao.setKey(voter, s);
 				JOptionPane.showMessageDialog(null, "得到密钥完成~");
 			}
 		});

@@ -68,8 +68,8 @@ public class LoginWindow {
 		shell.setText("µÇÂ¼");
 		
 		Label label = new Label(shell, SWT.NONE);
-		label.setBounds(102, 86, 61, 17);
-		label.setText("\u7528\u6237\u540D\uFF1A");
+		label.setBounds(86, 83, 61, 17);
+		label.setText("\u8EAB\u4EFD\u8BC1\u53F7\uFF1A");
 		
 		Label label_1 = new Label(shell, SWT.NONE);
 		label_1.setBounds(102, 130, 61, 17);

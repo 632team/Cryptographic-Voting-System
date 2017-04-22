@@ -5,6 +5,7 @@ import java.util.*;
 
 import javax.swing.JOptionPane;
 
+import com.util.AESEncrypt;
 import com.util.Base64;
 import com.util.RSAEncrypt;
 
@@ -147,10 +148,12 @@ public class Dao {
 		}
 		
 		// 添加投票信息
-		public static boolean voteCandidate(int vid, String privateKey, String cid) throws Exception {
+		public static boolean voteCandidate(Voter vt, String cid) throws Exception {
+			// AES解密
+			String privateKey = new String(AESEncrypt.decrypt(Base64.decode(vt.getPrivateKey()), vt.getIc()));
 			String encryptResult = Base64.encode(RSAEncrypt.encrypt(RSAEncrypt.loadPrivateKeyByStr(privateKey), cid.getBytes()));
 			String sql = "INSERT INTO  `voter_result` (  `voter_id` ,  `candidate_id`)"
-					+ "VALUES ('" + vid + "', '" + encryptResult + "')";
+					+ "VALUES ('" + vt.getId() + "', '" + encryptResult + "')";
 			//System.out.println(encryptResult);
 			return insert(sql);
 		}
@@ -250,8 +253,11 @@ public class Dao {
 		}
 		
 		//---------------------修改信息模块----------------------------//
-		public static void setKey(int id, String[] s) {
+		public static void setKey(Voter vt, String[] s) {
+			s[1] = Base64.encode(AESEncrypt.encrypt(s[1], vt.getIc()));
+			vt.setPublicKey(s[0]);
+			vt.setPrivateKey(s[1]);
 			update("update voter_information set voter_public_key='" + s[0] + 
-					"', voter_private_key='" + s[1] + "' where voter_id = '"+ id +"'");
+					"', voter_private_key='" + s[1] + "' where voter_id = '"+ vt.getId() +"'");
 		}
 }
