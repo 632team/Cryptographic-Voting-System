@@ -90,6 +90,7 @@ public class CandidateListWindow {
 				text_name.setText(list.get(index).getName());
 				text_age.setText(String.valueOf(list.get(index).getAge()));
 				text_intro.setText(list.get(index).getRecord());
+				text_declaration.setText(list.get(index).getDelcaration());
 				String path = "http://oh9ex6wd2.bkt.clouddn.com/2.jpg";
 //				String path = "https://mail.qq.com/cgi-bin/magick?mailid=ZL2511-LaFYqnC8_MECDStzUCKze73&filename=2.jpg&sid=ujaTTpSeuodCIwVd"
 			    ImageRegistry imageRegistry = new ImageRegistry();
