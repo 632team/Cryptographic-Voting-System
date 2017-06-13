@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>NotValidUerWindow</class>
+ <widget class="QWidget" name="NotValidUerWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>348</width>
+    <height>137</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>348</width>
+    <height>137</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>348</width>
+    <height>137</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>50</y>
+     <width>131</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Not Valide Voter !!!!</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

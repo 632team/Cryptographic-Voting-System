@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>userInfo</class>
+ <widget class="QWidget" name="userInfo">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>342</width>
+    <height>295</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>342</width>
+    <height>295</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>342</width>
+    <height>295</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>User</string>
+  </property>
+  <widget class="QLabel" name="labelName">
+   <property name="geometry">
+    <rect>
+     <x>31</x>
+     <y>41</y>
+     <width>42</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Name:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditName">
+   <property name="geometry">
+    <rect>
+     <x>79</x>
+     <y>41</y>
+     <width>142</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelAge">
+   <property name="geometry">
+    <rect>
+     <x>31</x>
+     <y>101</y>
+     <width>29</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Age:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditAge">
+   <property name="geometry">
+    <rect>
+     <x>79</x>
+     <y>101</y>
+     <width>142</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelId">
+   <property name="geometry">
+    <rect>
+     <x>31</x>
+     <y>151</y>
+     <width>19</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>ID:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditId">
+   <property name="geometry">
+    <rect>
+     <x>79</x>
+     <y>151</y>
+     <width>142</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelSex">
+   <property name="geometry">
+    <rect>
+     <x>31</x>
+     <y>201</y>
+     <width>28</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Sex:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditSex">
+   <property name="geometry">
+    <rect>
+     <x>79</x>
+     <y>201</y>
+     <width>142</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonCandidate">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>230</y>
+     <width>111</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>View Candidate</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>270</y>
+     <width>111</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Confirm</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
